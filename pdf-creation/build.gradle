@@ -1,0 +1,53 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.4'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id("com.diffplug.spotless") version "6.17.0"
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	/* spring-boot-starter-thymeleaf causes errors
+	 implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' */
+	implementation 'org.thymeleaf:thymeleaf:3.1.1.RELEASE'
+
+	/* Pick one of the pdf converters - No code changes needed
+	 flying-saucer-pdf uses itext:2.1.7
+	 flying-saucer-pdf-openpdf uses openpdf:1.3.11
+	 flying-saucer-pdf-itext5 uses itextpdf:5.5.12 */
+	// implementation 'org.xhtmlrenderer:flying-saucer-pdf:9.1.22'
+	// implementation 'org.xhtmlrenderer:flying-saucer-pdf-openpdf:9.1.22'
+	implementation 'org.xhtmlrenderer:flying-saucer-pdf-itext5:9.1.22'
+
+	/* Create Bar Codes */
+	implementation 'com.google.zxing:core:3.5.1'
+	implementation 'com.google.zxing:javase:3.5.1'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+spotless {
+	java {
+		palantirJavaFormat('2.9.0')
+	}
+
+
+	// groovyGradle {
+	// 	target '*.gradle' // default target of groovyGradle
+	// 	greclipse()
+	// }
+}
